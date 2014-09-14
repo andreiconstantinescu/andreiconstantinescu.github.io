@@ -10,6 +10,8 @@
   "author": "Andrei Constantinescu",
   "license": "MIT",
   "dependencies": {
+    "ampersand-router": "^1.0.5",
+    "backbone": "^1.1.2",
     "bluebird": "^2.2.2",
     "browser-sync": "^1.1.2",
     "compression": "^1.0.10",
