@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Personal website.",
   "repository": "https://github.com/andreiconstantinescu/andreiconstantinescu.github.io",
-  "main": "gulpfile.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,10 +14,12 @@
     "backbone": "^1.1.2",
     "bluebird": "^2.2.2",
     "browser-sync": "^1.1.2",
+    "browserify": "^5.11.2",
     "compression": "^1.0.10",
     "express": "^4.8.2",
     "gulp": "^3.8.5",
     "gulp-autoprefixer": "0.0.8",
+    "gulp-browserify": "^0.5.0",
     "gulp-cache": "^0.2.0",
     "gulp-filter": "^1.0.0",
     "gulp-imagemin": "^0.6.2",
