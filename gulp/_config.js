@@ -3,7 +3,7 @@
 var path = require('path');
 
 var config = module.exports = {};
-cofig.plugins = require('gulp-load-plugins')();
+config.plugins = require('gulp-load-plugins')();
 
 config.paths = {
   'client': './client',
