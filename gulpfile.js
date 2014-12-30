@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var express = require('express');
 var $ = require('gulp-load-plugins')();
 
 var wiredep = require('wiredep').stream;
@@ -109,20 +110,33 @@ gulp.task('build:base', ['html:jade', 'css:stylus', 'js:coffee', 'assets:move'],
 var criticalCSS = '';
 
 gulp.task('css:critical', ['build:base'], function (done) {
-  nodefn.call(penthouse, {
-    url: 'http://localhost:3000',
-    css: path.join(paths.public, '/css/main.css'),
-    width: 1440,
-    height: 900
-  }).then(function (cCSS) {
-    criticalCSS = cCSS.replace('\n', '');
-    $.util.log('Critical CSS size: ' + cCSS.length + ' bytes.');
-    done();
+
+  var s = express();
+  var p = 9876;
+
+  s.use(express.static(paths.public));
+
+  s.get('*', function (request, response) {
+    response.sendFile(path.resolve(paths.public, 'index.html'));
+  });
+
+  var server = s.listen(p, function () {
+    penthouse({
+      url: 'http://localhost:' + p,
+      css: path.join(paths.public, '/css/main.css'),
+      width: 1440,
+      height: 900
+    }, function (error, cCSS) {
+      criticalCSS = cCSS.replace('\n', '');
+      $.util.log('Critical CSS size: ' + cCSS.length + ' bytes.');
+      server.close();
+      done();
+    });
   });
 });
 
-gulp.task('build:public', ['css:critical'], function () {
-  return gulp.src(path.normalize(paths.public, 'index.html'))
+gulp.task('build', ['css:critical'], function () {
+  return gulp.src(path.normalize(path.join(paths.public, 'index.html')))
     .pipe($.replace(
       '<link rel=stylesheet href=css/main.css>',
       '<style>' + criticalCSS + '</style>'
