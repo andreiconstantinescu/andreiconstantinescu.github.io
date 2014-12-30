@@ -1,9 +1,9 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins');
+var $ = require('gulp-load-plugins')();
 
-var wiredep = require('wiredep');
+var wiredep = require('wiredep').stream;
 var browserSync = require('browser-sync');
 var saveLicense = require('uglify-save-license');
 var penthouse = require('penthouse');
@@ -44,9 +44,9 @@ var options = {
 
 gulp.task('wiredep', function () {
   return gulp.src(path.normalize(path.join(paths.client, 'index.jade')))
-  .pipe(wiredep())
-  .pipe(gulp.dest(paths.client));
-})
+    .pipe(wiredep())
+    .pipe(gulp.dest(paths.client));
+});
 
 gulp.task('html:jade', ['wiredep'], function () {
   return gulp.src(path.normalize(path.join(paths.client, 'index.jade')))
@@ -71,7 +71,7 @@ gulp.task('js:coffee', function () {
 });
 
 gulp.task('img:imagemin', function () {
-  return gulp.src(path.normalize(path.join(paths.client, '/img/**.*')))
+  return gulp.src(path.normalize(path.join(paths.client, '/assets/img/**.*')))
     .pipe($.cache($.imagemin(options.imagemin)))
     .pipe(gulp.dest(path.normalize(path.join(paths.public, '/img'))));
 });
@@ -82,7 +82,7 @@ gulp.task('build:base', ['html:jade', 'css:stylus', 'js:coffee', 'img:imagemin']
   var htmlFilter = $.filter('**/*.html');
   var assets = $.useref.assets();
 
-  return gulp.src(path.public)
+  return gulp.src(path.normalize(path.join(paths.public, 'index.html')))
     .pipe(assets)
 
     .pipe(jsFilter)
@@ -113,6 +113,7 @@ gulp.task('css:critical', ['build:base'], function (done) {
     height: 900
   })).then(function (cCSS) {
     criticalCSS = cCSS.replace('\n', '');
+    $.util.log('Critical CSS size: ' + criticalCSS.length + ' bytes.');
     done();
   });
 });

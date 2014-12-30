@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title constantinescu.io
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no')
+    meta(name='description', content="Andrei Constantinescu's personal page.")
+    
+    // build:css({client,public}) css/main.css
+    // bower:css
+    // endbower
+    link(rel="stylesheet", href="css/main.css")
+    // endbuild
+  body
+    h1 Salut
+    // build:js({client,public}) js/main.js
+    // bower:js
+    script(src='bower_components/jquery/dist/jquery.js')
+    // endbower
+    script(src="js/main.js")
+    // endbuild
