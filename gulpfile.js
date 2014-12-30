@@ -175,7 +175,13 @@ gulp.task('pagespeed', function (done) {
       strategy: 'mobile'
     }, function () {
       done();
+      ngrok.disconnect();
       process.exit(0);
     });
   });
+});
+
+gulp.task('clean', function () {
+  return gulp.src(path.normalize(paths.public))
+    .pipe($.clean());
 });
