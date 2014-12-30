@@ -117,7 +117,6 @@ gulp.task('css:critical', ['build:base'], function (done) {
   }).then(function (cCSS) {
     criticalCSS = cCSS.replace('\n', '');
     $.util.log('Critical CSS size: ' + cCSS.length + ' bytes.');
-    console.log('aici', cCSS);
     done();
   });
 });
