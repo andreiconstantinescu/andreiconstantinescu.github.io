@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var express = require('express');
+var compression = require('compression');
 var $ = require('gulp-load-plugins')();
 
 var wiredep = require('wiredep').stream;
@@ -114,11 +115,7 @@ gulp.task('css:critical', ['build:base'], function (done) {
   var s = express();
   var p = 9876;
 
-  s.use(express.static(paths.public));
-
-  s.get('*', function (request, response) {
-    response.sendFile(path.resolve(paths.public, 'index.html'));
-  });
+  s.use('/', express.static(paths.public));
 
   var server = s.listen(p, function () {
     penthouse({
@@ -166,7 +163,13 @@ gulp.task('serve', function () {
 });
 
 gulp.task('pagespeed', function (done) {
-  ngrok.connect(3000, function(err, url) {
+  var s = express();
+  var p = 9876;
+
+  s.use(compression());
+  s.listen(p);
+
+  ngrok.connect(p, function(err, url) {
     pagespeed({
       url: url,
       strategy: 'mobile'
