@@ -70,13 +70,16 @@ gulp.task('js:coffee', function () {
     .pipe(browserSync.reload({stream:true}));
 });
 
-gulp.task('img:imagemin', function () {
-  return gulp.src(path.normalize(path.join(paths.client, '/assets/img/**.*')))
+gulp.task('assets:move', function () {
+  var imgFilter = $.filter('**/img/**/*.*');
+  return gulp.src(paths.client + '/assets/**/*')
+    .pipe(imgFilter)
     .pipe($.cache($.imagemin(options.imagemin)))
-    .pipe(gulp.dest(path.normalize(path.join(paths.public, '/img'))));
+    .pipe(imgFilter.restore())
+    .pipe(gulp.dest(path.normalize(path.join(paths.public, '/assets'))));
 });
 
-gulp.task('build:base', ['html:jade', 'css:stylus', 'js:coffee', 'img:imagemin'], function () {
+gulp.task('build:base', ['html:jade', 'css:stylus', 'js:coffee', 'assets:move'], function () {
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
   var htmlFilter = $.filter('**/*.html');
@@ -106,20 +109,21 @@ gulp.task('build:base', ['html:jade', 'css:stylus', 'js:coffee', 'img:imagemin']
 var criticalCSS = '';
 
 gulp.task('css:critical', ['build:base'], function (done) {
-  nodefn.call(penthouse({
+  nodefn.call(penthouse, {
     url: 'http://localhost:3000',
     css: path.join(paths.public, '/css/main.css'),
     width: 1440,
     height: 900
-  })).then(function (cCSS) {
+  }).then(function (cCSS) {
     criticalCSS = cCSS.replace('\n', '');
-    $.util.log('Critical CSS size: ' + criticalCSS.length + ' bytes.');
+    $.util.log('Critical CSS size: ' + cCSS.length + ' bytes.');
+    console.log('aici', cCSS);
     done();
   });
 });
 
 gulp.task('build:public', ['css:critical'], function () {
-  return gulp.src(path.normalize(path.public, 'index.html'))
+  return gulp.src(path.normalize(paths.public, 'index.html'))
     .pipe($.replace(
       '<link rel=stylesheet href=css/main.css>',
       '<style>' + criticalCSS + '</style>'
@@ -127,7 +131,7 @@ gulp.task('build:public', ['css:critical'], function () {
     .pipe(gulp.dest(paths.public));
 });
 
-gulp.task('watch', ['html:jade', 'css:stylus', 'js:coffee'], function () {
+gulp.task('watch', ['build:base'], function () {
   gulp.watch(['bower.json'], ['wiredep']);
   gulp.watch([path.normalize(path.join(paths.client, '/style/**.*'))], ['css:stylus']);
   gulp.watch([path.normalize(path.join(paths.client, 'index.jade'))], ['html:jade']);
@@ -135,7 +139,7 @@ gulp.task('watch', ['html:jade', 'css:stylus', 'js:coffee'], function () {
 
   browserSync.init({
     server: {
-      baseDir: paths.client
+      baseDir: paths.public
     }
   });
 });

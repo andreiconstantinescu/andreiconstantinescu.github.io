@@ -8,14 +8,19 @@ html
     
     // build:css({client,public}) css/main.css
     // bower:css
+    link(rel='stylesheet', href='bower_components/bootstrap/dist/css/bootstrap.css')
     // endbower
     link(rel="stylesheet", href="css/main.css")
     // endbuild
   body
-    h1 Salut
+    .container
+      h1 Hello
+      .jumbotron
+        img.img-responsive(src='assets/img/ocean.jpg')
     // build:js({client,public}) js/main.js
     // bower:js
     script(src='bower_components/jquery/dist/jquery.js')
+    script(src='bower_components/bootstrap/dist/js/bootstrap.js')
     // endbower
     script(src="js/main.js")
     // endbuild
