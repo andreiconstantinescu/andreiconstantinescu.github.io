@@ -134,7 +134,7 @@ gulp.task('css:critical', ['build:base'], function (done) {
   });
 });
 
-gulp.task('build', ['clean', 'css:critical'], function () {
+gulp.task('build', ['css:critical'], function () {
   return gulp.src(path.normalize(path.join(paths.public, 'index.html')))
     .pipe($.replace(
       '<link rel=stylesheet href=css/main.css>',
@@ -143,7 +143,7 @@ gulp.task('build', ['clean', 'css:critical'], function () {
     .pipe(gulp.dest(paths.public));
 });
 
-gulp.task('watch', ['clean', 'build:common'], function () {
+gulp.task('watch', ['build:common'], function () {
   gulp.watch(['bower.json'], ['wiredep']);
   gulp.watch([path.normalize(path.join(paths.client, '/style/**.*'))], ['css:stylus']);
   gulp.watch([path.normalize(path.join(paths.client, 'index.jade'))], ['html:jade']);
