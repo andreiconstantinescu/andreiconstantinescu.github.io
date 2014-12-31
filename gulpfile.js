@@ -14,6 +14,7 @@ var nodefn = require('when/node');
 var pagespeed = require('psi');
 var ngrok = require('ngrok');
 var path = require('path');
+var fs = require('fs');
 
 var paths = {
   client: path.normalize('./client'),
@@ -135,6 +136,11 @@ gulp.task('css:critical', ['build:base'], function (done) {
 });
 
 gulp.task('build', ['css:critical'], function () {
+  fs.writeFile(path.normalize(path.join(paths.public, 'CNAME')), 'constantinescu.io', function (err) {
+    if (err) {
+      console.log('Error: ',err.message);
+    }
+  });
   return gulp.src(path.normalize(path.join(paths.public, 'index.html')))
     .pipe($.replace(
       '<link rel=stylesheet href=css/main.css>',
