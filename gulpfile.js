@@ -81,9 +81,9 @@ gulp.task('assets:move', function () {
     .pipe(gulp.dest(path.normalize(path.join(paths.public, '/assets'))));
 });
 
-gulp.task('build:common', ['html:jade', 'css:stylus', 'js:coffee', 'assets:move'], function () {});
+gulp.task('build:common', ['html:jade', 'css:stylus', 'js:coffee'], function () {});
 
-gulp.task('build:base', ['build:common'], function () {
+gulp.task('build:base', ['build:common', 'assets:move'], function () {
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
   var htmlFilter = $.filter('**/*.html');
@@ -143,7 +143,7 @@ gulp.task('build', ['clean', 'css:critical'], function () {
     .pipe(gulp.dest(paths.public));
 });
 
-gulp.task('watch', ['build:common'], function () {
+gulp.task('watch', ['clean', 'build:common'], function () {
   gulp.watch(['bower.json'], ['wiredep']);
   gulp.watch([path.normalize(path.join(paths.client, '/style/**.*'))], ['css:stylus']);
   gulp.watch([path.normalize(path.join(paths.client, 'index.jade'))], ['html:jade']);
