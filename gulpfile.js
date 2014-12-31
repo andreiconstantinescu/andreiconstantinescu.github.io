@@ -134,7 +134,7 @@ gulp.task('css:critical', ['build:base'], function (done) {
   });
 });
 
-gulp.task('build', ['css:critical'], function () {
+gulp.task('build', ['clean', 'css:critical'], function () {
   return gulp.src(path.normalize(path.join(paths.public, 'index.html')))
     .pipe($.replace(
       '<link rel=stylesheet href=css/main.css>',
@@ -156,7 +156,7 @@ gulp.task('watch', ['build:common'], function () {
   });
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', ['build'], function () {
   browserSync.init({
     server: {
       baseDir: paths.public
