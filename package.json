@@ -12,5 +12,8 @@
   ],
   "author": "Andrei Constantinescu <andrei.c@constantinescu.io>",
   "dependencies": {
+    "next": "^2.0.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   }
 }
