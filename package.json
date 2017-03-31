@@ -12,7 +12,9 @@
   ],
   "author": "Andrei Constantinescu <andrei.c@constantinescu.io>",
   "scripts": {
-    "dev":"next"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "next": "^2.0.1",
