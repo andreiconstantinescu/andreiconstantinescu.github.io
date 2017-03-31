@@ -11,6 +11,9 @@
     "personal"
   ],
   "author": "Andrei Constantinescu <andrei.c@constantinescu.io>",
+  "scripts": {
+    "dev":"next"
+  },
   "dependencies": {
     "next": "^2.0.1",
     "react": "^15.4.2",
