@@ -1,0 +1,1 @@
+module.exports=__NEXT_REGISTER_PAGE("/cv",function(){var e=webpackJsonp([3],{196:function(e,t,u){e.exports=u(197)},197:function(e,t,u){"use strict";Object.defineProperty(t,"__esModule",{value:true});var n=u(4);var r=u.n(n);t["default"]=function(){return r.a.createElement("h2",null,"The future CV Page.")}}},[196]);return{page:e.default}});
